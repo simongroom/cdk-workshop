@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Code, Runtime, Function as lambdaFunction } from 'aws-cdk-lib/aws-lambda';
 import { HitCounter } from './hitcounter';
@@ -7,6 +7,9 @@ import { Construct } from 'constructs';
 
 
 export class CdkWorkshopStack extends Stack {
+  public readonly hcViewerUrl: CfnOutput;
+  public readonly hcEndpoint: CfnOutput;
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -20,14 +23,22 @@ export class CdkWorkshopStack extends Stack {
       downstream: hello
     });
     
-    new LambdaRestApi(this, 'Endpoint', {
+    const gateway = new LambdaRestApi(this, 'Endpoint', {
       handler: helloWithCounter.handler
     });
 
-    new TableViewer(this, 'ViewHitCounter', {
+    const tableViewer = new TableViewer(this, 'ViewHitCounter', {
       title: 'Hello Hits',
       table: helloWithCounter.table,
       sortBy: '-hits',
+    });
+
+    this.hcEndpoint = new CfnOutput(this, 'GatewayUrl', {
+      value: gateway.url,
+    });
+
+    this.hcViewerUrl = new CfnOutput(this, 'TableViewerUrl', {
+      value: tableViewer.endpoint,
     });
   }
 }
