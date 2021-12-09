@@ -2,7 +2,7 @@ import { Stack, StackProps } from "aws-cdk-lib";
 import { Repository } from "aws-cdk-lib/aws-codecommit";
 import { CodeBuildStep, CodePipeline, CodePipelineSource } from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
-import { WorkshipPipelineStage } from "./pipeline-stage";
+import { WorkshopPipelineStage } from "./pipeline-stage";
 
 export class WorkshipPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -26,7 +26,7 @@ export class WorkshipPipelineStack extends Stack {
         ],
       }),
     });
-    const deploy = new WorkshipPipelineStage(this, 'Deploy');
+    const deploy = new WorkshopPipelineStage(this, 'Deploy');
     const deployStage = pipeline.addStage(deploy);
   }
 }
