@@ -3,6 +3,24 @@
 *.d.ts
 node_modules
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+!lambda/*.js
